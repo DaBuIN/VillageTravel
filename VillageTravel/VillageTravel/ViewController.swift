@@ -8,17 +8,73 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITabBarDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var myTableView: UITableView!
+    
+    private let fmgr = FileManager.default
+    private let docDir = NSHomeDirectory() + "/Documents"
+    private var photoDir:String?
+    
+    private var myData:Array<[String:AnyObject]> = []
+//    private var myData:Array< Dictionary<String, AnyObject> > = []
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return myData.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
+        
+        let photoURL_str = myData[indexPath.row]["Photo"] as! String
+        let photoPath_str = photoDir! + "/" + String( format: "%03i", indexPath.row ) + ".jpg"
+        
+        
+        if fmgr.fileExists(atPath: photoPath_str) {
+        
+            myData[indexPath.row]["PhotoPath"] = photoPath_str as AnyObject
+            cell.img.image = UIImage(contentsOfFile: photoPath_str)
+            
+        } else {
+            wgetPhoto(photoURL_str, toPath: photoPath_str)
+
+        }
+
+        cell.title.text = myData[indexPath.row]["Name"] as! String
+        cell.address.text = myData[indexPath.row]["Address"] as! String
+        
+        return cell
+        
+    }
+    
+    private func wgetPhoto(_ url_string: String, toPath: String ) {
+        let url = URL(string: url_string)
+        let req = URLRequest(url: url!)
+        let session = URLSession(configuration: .default)
+        let task = session.dataTask(with: req, completionHandler: {(data, resp, error) in
+            
+            if error == nil {
+                print("wgetPhoto() OK")
+                
+                self.saveFile(data: data!, destination: toPath )
+                
+            } else {
+                print("wgetPhoto() fails")
+            }
+        })
+        
+        task.resume()
+    }
+    
+    private func saveFile(data: Data, destination: String) {
+        let url = URL(fileURLWithPath: destination )
+        do {
+            try data.write(to: url )
+        } catch {
+            print(error)
+        }
     }
     
     @IBAction func getJSON(_ sender: Any) {
@@ -28,6 +84,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITabBarDelegate 
             let data = try Data(contentsOf: url!)
             
             parseJSON( json: data)
+            
+            self.myTableView.reloadData()
             
         } catch {
             print(error)
@@ -40,14 +98,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITabBarDelegate 
         do {
             if let jsonObj = try? JSONSerialization.jsonObject(with: json, options: .allowFragments) {
                 
+                myData = []
+                
                 let allObj = jsonObj as! [[String:AnyObject]]
                 print(allObj.count)
                 
                 for row in allObj {
                     for (key,val) in row {
                         print("\(key) : \(val)")
+
                     }
+                    
+                    myData += [row]
+                    
+//                    DispatchQueue.main.async {
+//                        
+//                        self.tableView.reloadData()
+//                    }
                 }
+                
             }
             
             
@@ -58,7 +127,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITabBarDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        print(docDir)
+        
+        photoDir = docDir + "/placePhoto"
+        
+        if !fmgr.fileExists(atPath: photoDir!) {
+            do {
+                try fmgr.createDirectory(atPath: photoDir!, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print(error)
+            }
+        }
+    
     }
 
     override func didReceiveMemoryWarning() {
