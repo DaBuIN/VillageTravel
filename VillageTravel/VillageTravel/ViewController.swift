@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     
-    @IBOutlet weak var myTableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     private let fmgr = FileManager.default
     private let docDir = NSHomeDirectory() + "/Documents"
@@ -20,36 +20,80 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private var myData:Array<[String:AnyObject]> = []
 //    private var myData:Array< Dictionary<String, AnyObject> > = []
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return myData.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! CustomTableViewCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell" ) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell" ) as! CustomTableViewCell
         
         let photoURL_str = myData[indexPath.row]["Photo"] as! String
         let photoPath_str = photoDir! + "/" + String( format: "%03i", indexPath.row ) + ".jpg"
         
         
+
+        
         if fmgr.fileExists(atPath: photoPath_str) {
         
             myData[indexPath.row]["PhotoPath"] = photoPath_str as AnyObject
-            cell.img.image = UIImage(contentsOfFile: photoPath_str)
+            DispatchQueue.main.async {
+                cell.img.image = UIImage(contentsOfFile: photoPath_str)
+
+            }
             
         } else {
-            wgetPhoto(photoURL_str, toPath: photoPath_str)
+            
+                var isGetPhoto = true
+//                let queue = DispatchQueue(label: "getPhoto")
+            
+//                queue.async {
+                    do {
+                        try self.wgetPhoto(photoURL_str, toPath: photoPath_str)
+                    } catch {
+                        print(error)
+                        isGetPhoto = false
+                    }
+//                }
+            
+//                queue.async {
+        
+            DispatchQueue.main.async {
+                
+            
+                    if isGetPhoto {
+                        self.myData[indexPath.row]["PhotoPath"] = photoPath_str as AnyObject
+                        cell.img.image = UIImage(contentsOfFile: photoPath_str)
+                    } else {
+                        cell.img.image = UIImage(named: "none.png")
+                    }
+                    
+            }
+//                }
+
+            
+
+//            cell.img.image = UIImage(named: "none.png")
 
         }
 
-        cell.title.text = myData[indexPath.row]["Name"] as! String
-        cell.address.text = myData[indexPath.row]["Address"] as! String
+        DispatchQueue.main.async {
+            cell.title.text = self.myData[indexPath.row]["Name"] as! String
+            cell.address.text = self.myData[indexPath.row]["Address"] as! String
+        }
+        
+
         
         return cell
         
     }
     
-    private func wgetPhoto(_ url_string: String, toPath: String ) {
+    private func wgetPhoto(_ url_string: String, toPath: String ) throws {
         let url = URL(string: url_string)
         let req = URLRequest(url: url!)
         let session = URLSession(configuration: .default)
@@ -85,7 +129,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             parseJSON( json: data)
             
-            self.myTableView.reloadData()
+//            self.tableView.reloadData()
             
         } catch {
             print(error)
@@ -111,10 +155,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     
                     myData += [row]
                     
-//                    DispatchQueue.main.async {
-//                        
-//                        self.tableView.reloadData()
-//                    }
+                    DispatchQueue.main.async {
+                        
+                        self.tableView.reloadData()
+                    }
                 }
                 
             }
