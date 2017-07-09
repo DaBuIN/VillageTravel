@@ -27,10 +27,17 @@
                                 <rect key="frame" x="16" y="592.5" width="343" height="66.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQd-LE-PAZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="66.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="66.5"/>
                                         <state key="normal" title="Get JSON Data"/>
                                         <connections>
                                             <action selector="getJSON:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wlH-qr-emr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XE9-fM-OzE">
+                                        <rect key="frame" x="171.5" y="0.0" width="171.5" height="66.5"/>
+                                        <state key="normal" title="Refresh Table"/>
+                                        <connections>
+                                            <action selector="refreshData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="K8a-zO-Dh6"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -43,7 +50,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="114"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vpp-gj-PDk" id="qDe-xv-nQQ" userLabel="contentView">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="113.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="114"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nfc-r9-yfN" userLabel="Img">
@@ -122,30 +129,50 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TXb-fe-uLM" userLabel="infoTableView">
-                                <rect key="frame" x="24" y="28" width="327" height="533.5"/>
+                                <rect key="frame" x="24" y="28" width="327" height="534"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="UJg-2V-iwg" userLabel="infoCell">
                                         <rect key="frame" x="0.0" y="28" width="327" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UJg-2V-iwg" id="86t-an-R6f" userLabel="infoContent">
-                                            <rect key="frame" x="0.0" y="0.0" width="327" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="327" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNX-kL-DHD" userLabel="NavBar">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="h75-YV-0M6">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="l7g-oC-v3T">
+                                            <connections>
+                                                <segue destination="HZc-yr-rLv" kind="unwind" unwindAction="backHereWithSegue:" id="Bdd-cj-r80"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TXb-fe-uLM" firstAttribute="height" secondItem="ZIQ-rZ-EWj" secondAttribute="height" multiplier="0.8" id="4XE-Fl-FCu"/>
                             <constraint firstItem="TXb-fe-uLM" firstAttribute="leading" secondItem="ZIQ-rZ-EWj" secondAttribute="leadingMargin" constant="8" id="E0O-i6-7YJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="TXb-fe-uLM" secondAttribute="trailing" constant="8" id="Jwv-1X-IjH"/>
-                            <constraint firstItem="TXb-fe-uLM" firstAttribute="top" secondItem="ze5-YC-OiF" secondAttribute="bottom" constant="8" id="p9X-E7-yqm"/>
+                            <constraint firstItem="ZNX-kL-DHD" firstAttribute="leading" secondItem="ZIQ-rZ-EWj" secondAttribute="leading" id="kyY-WR-I3K"/>
+                            <constraint firstItem="ZNX-kL-DHD" firstAttribute="centerX" secondItem="TXb-fe-uLM" secondAttribute="centerX" id="mGK-Zh-BPa"/>
+                            <constraint firstItem="ZNX-kL-DHD" firstAttribute="top" secondItem="ze5-YC-OiF" secondAttribute="bottom" id="mGi-ee-JF8"/>
+                            <constraint firstItem="TXb-fe-uLM" firstAttribute="top" secondItem="ze5-YC-OiF" secondAttribute="bottom" constant="8" id="p9X-E7-yqm" userLabel="infoTableView.top = NavBar.bottom + 8"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="navBar" destination="ZNX-kL-DHD" id="9qT-oE-6WM"/>
+                        <outlet property="tableView" destination="TXb-fe-uLM" id="D0w-Ms-Q1m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Egl-99-vqM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="HZc-yr-rLv" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="878" y="60"/>
         </scene>
