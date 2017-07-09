@@ -10,11 +10,15 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    private let app = UIApplication.shared.delegate as! AppDelegate
     private let fmgr = FileManager.default
     private let docDir = NSHomeDirectory() + "/Documents"
     private var photoDir:String?
     
-    private var myData:Array<[String:AnyObject]> = []
+    var staySelected:Int?
+   
+
+//    private var app.myStayData:Array<[String:AnyObject]> = []
     
     @IBAction func backHere( segue: UIStoryboardSegue ) {
         print("back home")
@@ -26,7 +30,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     @IBOutlet weak var tableView: UITableView!
-    
 
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -34,6 +37,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
+//        print(indexPath.row)
+//        print(cell.title.text!)
+
+        staySelected = indexPath.row
+        self.performSegue(withIdentifier: "segTableToDetail", sender: nil)
+        
         if let infoVC = storyboard?.instantiateViewController(withIdentifier: "stayInfo") {
             
             show( infoVC, sender: self)
@@ -41,14 +52,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myData.count
+        return app.myStayData.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell" ) as! CustomTableViewCell
-//        let photoPath_str = myData[indexPath.row]["photpPath"] as! String
-        let photoPath_str = photoDir! + "/" + ( myData[indexPath.row]["ID"] as! String ) + ".jpg"
+//        let photoPath_str = app.myStayData[indexPath.row]["photpPath"] as! String
+        let photoPath_str = photoDir! + "/" + ( app.myStayData[indexPath.row]["ID"] as! String ) + ".jpg"
         
         if fmgr.fileExists(atPath: photoPath_str) {
             
@@ -61,8 +72,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
 
         
-        cell.title.text = self.myData[indexPath.row]["Name"] as! String
-        cell.address.text = self.myData[indexPath.row]["Address"] as! String
+        cell.title.text = self.app.myStayData[indexPath.row]["Name"] as! String
+        cell.address.text = self.app.myStayData[indexPath.row]["Address"] as! String
 
  
         return cell
@@ -115,12 +126,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     private func parseJSON( json: Data ) {
-//        print("parseJSON(): OK")
         
         do {
             if let jsonObj = try? JSONSerialization.jsonObject(with: json, options: .allowFragments) {
                 
-                myData = []
+                app.myStayData = []
                 
                 let allObj = jsonObj as! [[String:AnyObject]]
                 print(allObj.count)
@@ -134,11 +144,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         }
                     }
                     
-                    
                     DispatchQueue.main.async {
                         
                         self.initStat()
-                        self.myData += [row]
+                        self.app.myStayData += [row]
                         
                         do {
                             
@@ -154,8 +163,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             print(error)
                         }
                     }
-                    
-                    
 
                 }
                 
@@ -191,6 +198,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+//        print(staySelected!)
+        
+        if segue.identifier == "segTableToDetail" {
+            
+            let vc = segue.destination as! stayInfoVC
+            vc.staySelected = self.staySelected
+        }
+        
+//        let vc = segue.destination as! stayInfoVC
+//        vc.staySelected = 1
     }
 
 

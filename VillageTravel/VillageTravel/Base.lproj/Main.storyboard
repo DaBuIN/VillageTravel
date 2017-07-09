@@ -110,6 +110,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="U3T-tE-2JV" id="avM-VZ-Vx2"/>
+                        <segue destination="06V-XG-EBg" kind="show" identifier="segTableToDetail" id="YjP-5f-n0n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -166,6 +167,7 @@
                             <constraint firstItem="TXb-fe-uLM" firstAttribute="top" secondItem="ze5-YC-OiF" secondAttribute="bottom" constant="8" id="p9X-E7-yqm" userLabel="infoTableView.top = NavBar.bottom + 8"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="CgW-lt-pGu"/>
                     <connections>
                         <outlet property="navBar" destination="ZNX-kL-DHD" id="9qT-oE-6WM"/>
                         <outlet property="tableView" destination="TXb-fe-uLM" id="D0w-Ms-Q1m"/>

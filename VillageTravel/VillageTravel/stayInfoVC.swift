@@ -10,16 +10,24 @@ import UIKit
 
 class stayInfoVC: UIViewController {
 
+    let app = UIApplication.shared.delegate as! AppDelegate
+    var staySelected:Int? = nil
+    
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var tableView: UITableView!
     
-//    func back() {
-//        self.dismiss(animated: true, completion: nil)
-//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let staySelected = staySelected {
+            print("stayInfoVC: \(staySelected)")
+            
+            let stayTitle = app.myStayData[staySelected]["Name"] as! String
+            print("stayInfoVC: \(stayTitle)")
+            
+            navBar.topItem?.title = stayTitle
+        }
         
         // Do any additional setup after loading the view.
     }
