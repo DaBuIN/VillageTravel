@@ -16,6 +16,7 @@
 		848560261F0F7AE600B896EC /* stayInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848560251F0F7AE600B896EC /* stayInfoVC.swift */; };
 		848560281F122C2C00B896EC /* none.png in Resources */ = {isa = PBXBuildFile; fileRef = 848560271F122C2C00B896EC /* none.png */; };
 		8485602A1F122C9E00B896EC /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 848560291F122C9E00B896EC /* back.png */; };
+		8485604A1F13663B00B896EC /* stayInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848560491F13663B00B896EC /* stayInfoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		848560251F0F7AE600B896EC /* stayInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stayInfoVC.swift; sourceTree = "<group>"; };
 		848560271F122C2C00B896EC /* none.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = none.png; path = imgs/none.png; sourceTree = "<group>"; };
 		848560291F122C9E00B896EC /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back.png; path = imgs/back.png; sourceTree = "<group>"; };
+		848560491F13663B00B896EC /* stayInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stayInfoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				84855F241F09481100B896EC /* ViewController.swift */,
 				84855F261F09481100B896EC /* Main.storyboard */,
 				848560251F0F7AE600B896EC /* stayInfoVC.swift */,
+				848560491F13663B00B896EC /* stayInfoCell.swift */,
 				84855F341F095DEA00B896EC /* CustomTableViewCell.swift */,
 				84855F291F09481100B896EC /* Assets.xcassets */,
 				84855F2B1F09481100B896EC /* LaunchScreen.storyboard */,
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8485604A1F13663B00B896EC /* stayInfoCell.swift in Sources */,
 				84855F351F095DEA00B896EC /* CustomTableViewCell.swift in Sources */,
 				848560261F0F7AE600B896EC /* stayInfoVC.swift in Sources */,
 				84855F251F09481100B896EC /* ViewController.swift in Sources */,

@@ -15,7 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private let docDir = NSHomeDirectory() + "/Documents"
     private var photoDir:String?
     
-    var staySelected:Int?
+    var staySelectedIndex:Int?
    
 
 //    private var app.myStayData:Array<[String:AnyObject]> = []
@@ -26,6 +26,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     @IBAction func refreshData(_ sender: Any) {
+//        DispatchQueue.main.async {
+//            self.getJSON(self)
+//        }
+//        getJSON(self)
         tableView.reloadData()
     }
     
@@ -42,7 +46,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //        print(indexPath.row)
 //        print(cell.title.text!)
 
-        staySelected = indexPath.row
+        staySelectedIndex = indexPath.row
         self.performSegue(withIdentifier: "segTableToDetail", sender: nil)
         
         if let infoVC = storyboard?.instantiateViewController(withIdentifier: "stayInfo") {
@@ -137,12 +141,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 for row in allObj {
                     
-                    DispatchQueue.global().async {
-                        for (key,val) in row {
-                            print("\(key) : \(val)")
-                            
-                        }
-                    }
+//                    DispatchQueue.global().async {
+//                        for (key,val) in row {
+//                            print("\(key) : \(val)")
+//                            
+//                        }
+//                    }
                     
                     DispatchQueue.main.async {
                         
@@ -192,7 +196,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         print(docDir)
         initStat()
-        getJSON(self)
+        DispatchQueue.main.async{
+            self.getJSON(self)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -202,16 +208,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-//        print(staySelected!)
+//        print(staySelectedIndex!)
         
         if segue.identifier == "segTableToDetail" {
             
             let vc = segue.destination as! stayInfoVC
-            vc.staySelected = self.staySelected
+            vc.staySelectedIndex = self.staySelectedIndex
         }
         
 //        let vc = segue.destination as! stayInfoVC
-//        vc.staySelected = 1
+//        vc.staySelectedIndex = 1
     }
 
 
