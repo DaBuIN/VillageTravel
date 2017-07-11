@@ -84,7 +84,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-    
+    private func getPhotoPath( stayInfoID: String ) -> String {
+        var path:String?
+        
+        path = self.photoDir! + "/" + stayInfoID + ".jpg"
+        
+        return path!
+    }
     
     private func wgetPhoto(_ url_string: String, toPath: String ) throws {
         let url = URL(string: url_string)
@@ -197,9 +203,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         print(docDir)
         initStat()
         DispatchQueue.main.async{
-            self.getJSON(self)
+            DispatchQueue.global().async {
+                self.getJSON(self)
+            }
+//            self.getJSON(self)
+//            self.tableView.reloadData()
         }
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -214,6 +226,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             let vc = segue.destination as! stayInfoVC
             vc.staySelectedIndex = self.staySelectedIndex
+            vc.stayPhotoPath = getPhotoPath(stayInfoID: app.myStayData[staySelectedIndex!]["ID"] as! String)
         }
         
 //        let vc = segue.destination as! stayInfoVC
