@@ -21,7 +21,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //    private var app.myStayData:Array<[String:AnyObject]> = []
     
     @IBAction func backHere( segue: UIStoryboardSegue ) {
-        print("back home")
+        print("back mainTableVC")
     }
     
     
@@ -65,6 +65,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //        let photoPath_str = app.myStayData[indexPath.row]["photpPath"] as! String
         let photoPath_str = photoDir! + "/" + ( app.myStayData[indexPath.row]["ID"] as! String ) + ".jpg"
         
+        
         if fmgr.fileExists(atPath: photoPath_str) {
             
             cell.img.image = UIImage(contentsOfFile: photoPath_str)
@@ -92,98 +93,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return path!
     }
     
-    private func wgetPhoto(_ url_string: String, toPath: String ) throws {
-        let url = URL(string: url_string)
-        let req = URLRequest(url: url!)
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: req, completionHandler: {(data, resp, error) in
-            
-            if error == nil {
-                print("wgetPhoto() OK")
-                
-                DispatchQueue.global().async {
-                    self.saveFile(data: data!, destination: toPath )
-                }
-                
-            } else {
-                print("wgetPhoto() fails")
-            }
-        })
-        
-        task.resume()
-    }
-    
-    private func saveFile(data: Data, destination: String) {
-        let url = URL(fileURLWithPath: destination )
-        do {
-            try data.write(to: url )
-        } catch {
-            print(error)
-        }
-    }
-    
-    @IBAction func getJSON(_ sender: Any) {
-        
-        do {
-            let url = URL( string: "http://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelStay.aspx" )
-            let data = try Data(contentsOf: url!)
-            
-            parseJSON( json: data)
-            
-        } catch {
-            print(error)
-        }
-    }
-    
-    private func parseJSON( json: Data ) {
-        
-        do {
-            if let jsonObj = try? JSONSerialization.jsonObject(with: json, options: .allowFragments) {
-                
-                app.myStayData = []
-                
-                let allObj = jsonObj as! [[String:AnyObject]]
-                print(allObj.count)
-                
-                for row in allObj {
-                    
-//                    DispatchQueue.global().async {
-//                        for (key,val) in row {
-//                            print("\(key) : \(val)")
-//                            
-//                        }
-//                    }
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.initStat()
-                        self.app.myStayData += [row]
-                        
-                        do {
-                            
-                            let photoURL_str = row["Photo"] as! String
-                            let photoPath_str = self.photoDir! + "/" + ( row["ID"] as! String ) + ".jpg"
-                            
-                            if !self.fmgr.fileExists(atPath: photoPath_str) {
-                                try self.wgetPhoto(photoURL_str, toPath: photoPath_str)
-                            }
-                            
-                            
-                        } catch {
-                            print(error)
-                        }
-                    }
-
-                }
-                
-            }
-            
-            
-        } catch {
-            print(error)
-        }
-    }
-    
+   
     private func initStat() {
         
         self.photoDir = self.docDir + "/placePhoto"
@@ -197,18 +107,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(docDir)
         initStat()
-        DispatchQueue.main.async{
-            DispatchQueue.global().async {
-                self.getJSON(self)
-            }
-//            self.getJSON(self)
-//            self.tableView.reloadData()
-        }
+
+        print("OK")
     }
     
     
@@ -229,8 +134,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             vc.stayPhotoPath = getPhotoPath(stayInfoID: app.myStayData[staySelectedIndex!]["ID"] as! String)
         }
         
-//        let vc = segue.destination as! stayInfoVC
-//        vc.staySelectedIndex = 1
+
     }
 
 
