@@ -30,9 +30,6 @@ class MapNavVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
         pin.title = nameDest!
         pin.subtitle = "lat:\(pin.coordinate.latitude), lng:\(pin.coordinate.longitude)"
         
-        // show pin
-        //        print(pin.title!)
-        //        print(pin.description)
         
         let span = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
         let region = MKCoordinateRegion(center: pin.coordinate, span: span)
@@ -68,9 +65,14 @@ class MapNavVC: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
             print("map ready")
         }
 
-        navBar.topItem?.title = nameDest ?? "Destination"
-        mapView.delegate = self
-        self.addPointAnnotation(point: locDest! )
+        DispatchQueue.main.async {
+            self.navBar.topItem?.title = self.nameDest ?? "Destination"
+            self.mapView.delegate = self
+            self.addPointAnnotation(point: self.locDest! )
+            
+        }
+
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

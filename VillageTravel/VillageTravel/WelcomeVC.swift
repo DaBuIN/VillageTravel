@@ -17,7 +17,6 @@ class WelcomeVC: UIViewController {
     private var photoDir:String?
 
     @IBAction func showMainTable(_ sender: Any) {
-//        performSegue(withIdentifier: "segWelcomeToMain", sender: nil)
         
         if let vc = storyboard?.instantiateViewController(withIdentifier: "mainTableVC") {
         
@@ -51,13 +50,16 @@ class WelcomeVC: UIViewController {
         
         print("Welcome OK")
         
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             self.initStat()
-            self.lauchData()
             print(self.docDir)
         }
         
-//        self.showMainVC()
+        DispatchQueue.global().async {
+            self.lauchData()
+
+        }
+        
     }
     
 

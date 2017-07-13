@@ -62,7 +62,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell" ) as! CustomTableViewCell
-//        let photoPath_str = app.myStayData[indexPath.row]["photpPath"] as! String
+
         let photoPath_str = photoDir! + "/" + ( app.myStayData[indexPath.row]["ID"] as! String ) + ".jpg"
         
         
@@ -125,13 +125,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-//        print(staySelectedIndex!)
-        
         if segue.identifier == "segTableToDetail" {
             
             let vc = segue.destination as! stayInfoVC
             vc.staySelectedIndex = self.staySelectedIndex
             vc.stayPhotoPath = getPhotoPath(stayInfoID: app.myStayData[staySelectedIndex!]["ID"] as! String)
+            
         }
         
 
