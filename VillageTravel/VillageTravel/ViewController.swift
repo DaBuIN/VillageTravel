@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -32,6 +33,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //        getJSON(self)
         tableView.reloadData()
     }
+    
+    @IBAction func doMapMultiAnn(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: "segTableToAnns", sender: nil)
+        
+        if let vc:MapMultiAnnVC = storyboard?.instantiateViewController(withIdentifier: "mapMultiAnnVC") as? MapMultiAnnVC {
+            show(vc, sender: self)
+        }
+    }
+    
+    
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -125,16 +137,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "segTableToDetail" {
+
+        let segID:String = segue.identifier!
+        
+        switch segID {
             
-            let vc = segue.destination as! stayInfoVC
-            vc.staySelectedIndex = self.staySelectedIndex
-            vc.stayPhotoPath = getPhotoPath(stayInfoID: app.myStayData[staySelectedIndex!]["ID"] as! String)
+        case "segTableToDetail":
+            let infoVC = segue.destination as! stayInfoVC
+            
+            infoVC.staySelectedIndex = self.staySelectedIndex
+            infoVC.stayPhotoPath = getPhotoPath(stayInfoID: app.myStayData[staySelectedIndex!]["ID"] as! String)
+            
+        case "segTableToAnns":
+            let annsVC = segue.destination as! MapMultiAnnVC
+            
+            annsVC.locations = []
+            annsVC.titleAnns = []
+            
+            for data in app.myStayData as! Array<[String:String]> {
+                let destCoorStr:String = data["Coordinate"]!
+                let destCoorArray:[String] = destCoorStr.components(separatedBy: ",")
+                
+                let lat:CLLocationDegrees = CLLocationDegrees(destCoorArray[0])!
+                let lng:CLLocationDegrees = CLLocationDegrees(destCoorArray[1])!
+                
+                annsVC.locations! += [CLLocationCoordinate2D(latitude: lat, longitude: lng)]
+                annsVC.titleAnns! += [data["Name"] as! String]
+                
+                
+            }
+            
+            print("MapAnns")
+            
+        default:
+            break
             
         }
         
-
     }
+    
 
 
 }

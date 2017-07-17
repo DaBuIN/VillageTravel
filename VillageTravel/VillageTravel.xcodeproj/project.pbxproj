@@ -17,6 +17,7 @@
 		848560281F122C2C00B896EC /* none.png in Resources */ = {isa = PBXBuildFile; fileRef = 848560271F122C2C00B896EC /* none.png */; };
 		8485602A1F122C9E00B896EC /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 848560291F122C9E00B896EC /* back.png */; };
 		8485604A1F13663B00B896EC /* stayInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848560491F13663B00B896EC /* stayInfoCell.swift */; };
+		84ED882F1F1CA07A00CD9F1C /* MapMultiAnnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ED882E1F1CA07A00CD9F1C /* MapMultiAnnVC.swift */; };
 		84F454441F16F112009B7C9B /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454431F16F112009B7C9B /* WelcomeVC.swift */; };
 		84F454461F1712D3009B7C9B /* MapNavVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F454451F1712D3009B7C9B /* MapNavVC.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,7 @@
 		848560271F122C2C00B896EC /* none.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = none.png; path = imgs/none.png; sourceTree = "<group>"; };
 		848560291F122C9E00B896EC /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back.png; path = imgs/back.png; sourceTree = "<group>"; };
 		848560491F13663B00B896EC /* stayInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stayInfoCell.swift; sourceTree = "<group>"; };
+		84ED882E1F1CA07A00CD9F1C /* MapMultiAnnVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapMultiAnnVC.swift; sourceTree = "<group>"; };
 		84F454431F16F112009B7C9B /* WelcomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		84F454451F1712D3009B7C9B /* MapNavVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapNavVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -73,6 +75,7 @@
 				84855F241F09481100B896EC /* ViewController.swift */,
 				84855F261F09481100B896EC /* Main.storyboard */,
 				84F454451F1712D3009B7C9B /* MapNavVC.swift */,
+				84ED882E1F1CA07A00CD9F1C /* MapMultiAnnVC.swift */,
 				84F454431F16F112009B7C9B /* WelcomeVC.swift */,
 				848560251F0F7AE600B896EC /* stayInfoVC.swift */,
 				848560491F13663B00B896EC /* stayInfoCell.swift */,
@@ -173,6 +176,7 @@
 				848560261F0F7AE600B896EC /* stayInfoVC.swift in Sources */,
 				84F454441F16F112009B7C9B /* WelcomeVC.swift in Sources */,
 				84855F251F09481100B896EC /* ViewController.swift in Sources */,
+				84ED882F1F1CA07A00CD9F1C /* MapMultiAnnVC.swift in Sources */,
 				84855F231F09481100B896EC /* AppDelegate.swift in Sources */,
 				84F454461F1712D3009B7C9B /* MapNavVC.swift in Sources */,
 			);

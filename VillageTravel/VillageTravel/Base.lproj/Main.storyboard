@@ -69,17 +69,24 @@
                                 <rect key="frame" x="16" y="592.5" width="343" height="66.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQd-LE-PAZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="66.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="114.5" height="66.5"/>
                                         <state key="normal" title="Get JSON Data"/>
                                         <connections>
                                             <action selector="getJSON:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wlH-qr-emr"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XE9-fM-OzE">
-                                        <rect key="frame" x="171.5" y="0.0" width="171.5" height="66.5"/>
+                                        <rect key="frame" x="114.5" y="0.0" width="114" height="66.5"/>
                                         <state key="normal" title="Refresh"/>
                                         <connections>
                                             <action selector="refreshData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="K8a-zO-Dh6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Etz-aD-D8w">
+                                        <rect key="frame" x="228.5" y="0.0" width="114.5" height="66.5"/>
+                                        <state key="normal" title="Annotations"/>
+                                        <connections>
+                                            <action selector="doMapMultiAnn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mju-6i-J3X"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -153,6 +160,7 @@
                     <connections>
                         <outlet property="tableView" destination="U3T-tE-2JV" id="avM-VZ-Vx2"/>
                         <segue destination="06V-XG-EBg" kind="show" identifier="segTableToDetail" id="YjP-5f-n0n"/>
+                        <segue destination="8PD-BQ-0Xk" kind="show" identifier="segTableToAnns" id="bhg-VY-AlU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -321,5 +329,57 @@
             </objects>
             <point key="canvasLocation" x="1812" y="60"/>
         </scene>
+        <!--Map Multi AnnVC-->
+        <scene sceneID="6sv-ui-AtP">
+            <objects>
+                <viewController storyboardIdentifier="mapMultiAnnVC" id="8PD-BQ-0Xk" customClass="MapMultiAnnVC" customModule="VillageTravel" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lT6-1e-bwn"/>
+                        <viewControllerLayoutGuide type="bottom" id="A0w-9R-rKj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WN9-mn-LhA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nem-iM-Suw">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Annotations" id="Kt3-tp-Ecw">
+                                        <barButtonItem key="leftBarButtonItem" image="back.png" id="XID-BY-xrF" userLabel="Back">
+                                            <connections>
+                                                <segue destination="duw-RI-dzR" kind="unwind" unwindAction="backHereWithSegue:" id="XeH-l5-CaN"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gsN-lC-Ktp">
+                                <rect key="frame" x="24" y="72" width="327" height="587"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gsN-lC-Ktp" firstAttribute="top" secondItem="Nem-iM-Suw" secondAttribute="bottom" constant="8" id="296-TD-STr"/>
+                            <constraint firstItem="Nem-iM-Suw" firstAttribute="top" secondItem="lT6-1e-bwn" secondAttribute="bottom" id="6NZ-2O-Vdd"/>
+                            <constraint firstItem="A0w-9R-rKj" firstAttribute="top" secondItem="gsN-lC-Ktp" secondAttribute="bottom" constant="8" id="7aE-20-AsS"/>
+                            <constraint firstItem="gsN-lC-Ktp" firstAttribute="leading" secondItem="WN9-mn-LhA" secondAttribute="leadingMargin" constant="8" id="Ids-G7-NNQ"/>
+                            <constraint firstAttribute="trailing" secondItem="Nem-iM-Suw" secondAttribute="trailing" id="Quc-ye-sHq"/>
+                            <constraint firstItem="Nem-iM-Suw" firstAttribute="leading" secondItem="WN9-mn-LhA" secondAttribute="leading" id="hd4-Oq-6QV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gsN-lC-Ktp" secondAttribute="trailing" constant="8" id="m5P-Xo-qGk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="gsN-lC-Ktp" id="3yW-Kw-9Db"/>
+                        <outlet property="navBar" destination="Nem-iM-Suw" id="Kxa-O0-i8g"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QVH-YF-r3Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="duw-RI-dzR" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="993" y="862"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="back.png" width="32" height="32"/>
+    </resources>
 </document>
